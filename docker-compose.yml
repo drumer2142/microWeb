@@ -1,0 +1,47 @@
+# Use root/example as user/password credentials
+version: '2.1'
+
+services:
+
+  db:
+    container_name: microWeb-db
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: microWeb
+      MYSQL_USER: microWebUser
+      MYSQL_PASSWORD: microWebPassword
+    ports:
+      - "3306:3306"
+    networks:
+      - api_network
+    expose:
+    # Opens port 3306 on the container
+    - "3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  microWeb-api:
+    container_name: microWeb-api
+    image: drumer2142/microWeb-api:0.0.1
+    build:
+      context: ./
+      dockerfile: ./src/Dockerfile
+    volumes:
+    - ./src/:/go/src/microWeb-api
+    ports:
+      - "8000:8000"
+    networks:
+      - api_network
+    depends_on:
+      db:
+        condition: service_healthy
+    #for v3+ use wait-for-it    
+    #commmand: ["./wait-for-it.sh", "db:3306", "--", "go", "run", "src/*.go"]
+
+networks:
+  api_network:
+    driver: bridge
