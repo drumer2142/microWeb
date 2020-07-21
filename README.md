@@ -8,7 +8,7 @@ The only program needed to run this example is Docker
 
 ### Installing
 
-The only step needed is
+To Run the Application
 
 ```
 docker-compose up
@@ -17,4 +17,5 @@ Then in Postman
 
 ```
 IP:8000/{route}
-``` 
+```
+
