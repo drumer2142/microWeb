@@ -19,28 +19,9 @@ var api_routes = []Route{
     AuthRequired: false,
   },
   Route{
-    URI: "/get/price",
-    Method: http.MethodPost,
-    Controller: controllers.DomainByPrice,
-    AuthRequired: false,
-  },
-  Route{
     URI: "/store/site",
     Method: http.MethodPost,
     Controller: controllers.StoreSite,
-    AuthRequired: false,
-  },
-  Route{
-    URI: "/delete/profile",
-    Method: http.MethodPost,
-    Controller: controllers.DeleteProfile,
-    AuthRequired: false,
-  },
-  Route{
-    URI: "/update/profile",
-    // Method: http.MethodPost,
-    Method: http.MethodGet,
-    Controller: controllers.UpdateProfile,
     AuthRequired: false,
   },
 }

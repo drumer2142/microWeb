@@ -10,4 +10,9 @@ var sites = []models.Site{
         Domain:       "google",
         Description:  "",
     },
+    models.Site{
+        URL:          "https://www.facebook.com/",
+        Domain:       "facebook",
+        Description:  "",
+    },
 }

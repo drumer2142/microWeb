@@ -23,3 +23,13 @@ import (
     }
     return allsites, nil
   }
+
+  func (r *RepositoryGorm) FindByDomain(domain string) ([]models.Site, error){
+    var err error
+    var sitebydomain []models.Site
+    err = r.db.Debug().Where("domain = ?", domain).Find(&sitebydomain).Error
+    if err != nil{
+      return nil, err
+    }
+    return sitebydomain, nil
+  }

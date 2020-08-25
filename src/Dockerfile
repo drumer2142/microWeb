@@ -18,6 +18,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o app .
 RUN ls
 RUN pwd
 
-RUN chmod +x wait-for-it.sh
+# RUN chmod +x wait-for-it.sh
 
 CMD ["./app"]

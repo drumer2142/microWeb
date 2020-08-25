@@ -30,15 +30,25 @@ func AllSites(w http.ResponseWriter, r *http.Request){
 }
 
 func SiteByDomain(w http.ResponseWriter, r *http.Request){
-    domain := r.FormValue("domain")
-    db, _ := database.Connect()
-    sitebydomain := &models.Site{}
-    err := db.Find(sitebydomain, "domain = ?", domain).RecordNotFound()
-    if err == true {
-        handler.ResponseError(w, http.StatusNotFound, "No result found")
-        return
+  domain := r.FormValue("domain")
+  db, err := database.Connect()
+  if err != nil {
+    handler.ResponseJSON(w, http.StatusInternalServerError, err)
+    return
+  }
+  repo := repo.NewUrlRepo(db)
+  func(urlRepository repository.UrlRepository){
+    sitebydomain, err := urlRepository.FindByDomain(domain)
+    if err != nil {
+      handler.ResponseJSON(w, http.StatusNotFound, err)
+      return
+    }
+    if len(sitebydomain) == 0 {
+      handler.ResponseJSON(w, http.StatusNotFound, "No domain found")
+      return
     }
     handler.ResponseJSON(w, http.StatusOK, sitebydomain)
+  }(repo)
 }
 
 func StoreSite(w http.ResponseWriter, r *http.Request){

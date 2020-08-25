@@ -26,14 +26,14 @@ services:
 
   microWeb-api:
     container_name: microWeb-api
-    image: drumer2142/microWeb-api:0.0.1
+    image: drumer2142/microweb-api:0.0.1
     build:
       context: ./
       dockerfile: ./src/Dockerfile
     volumes:
     - ./src/:/go/src/microWeb-api
     ports:
-      - "8000:8000"
+      - "8080:8080"
     networks:
       - api_network
     depends_on:
