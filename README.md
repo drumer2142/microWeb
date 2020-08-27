@@ -17,6 +17,6 @@ docker-compose up -d
 Then in Postman
 
 ```
-IP:8000/{route}
+IP:8080/{route}
 ```
 
