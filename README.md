@@ -1,17 +1,18 @@
 # microWeb
 
-microWeb is a Test App build in a microframework like structure. Its serves the purpose of storing websites (URL, Domain).
+microWeb is a micro-framework designed to follow simple, yet powerful design patterns.
+The example app's purpose is storing websites (URL, Domain).
 
 ### Prerequisites
 
-The only program needed to run this example is Docker
+- [Docker](https://www.docker.com/) 
 
 ### Installing
 
 To Run the Application
 
 ```
-docker-compose up
+docker-compose up -d
 ```
 Then in Postman
 
