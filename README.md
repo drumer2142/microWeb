@@ -1,6 +1,7 @@
 # microWeb
 
-microWeb is a micro-framework designed to follow simple, yet powerful design patterns.
+MicroWeb is the implementation of an API developed on a self-made micro-framework.
+
 The example app's purpose is storing websites (URL, Domain).
 
 ### Prerequisites
