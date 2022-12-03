@@ -1,35 +1,32 @@
 package repo
 
 import (
-	_"log"	
+	_ "log"
+
+	"github.com/drumer2142/microWeb/src/api/database"
 	"github.com/drumer2142/microWeb/src/api/models"
-	"github.com/jinzhu/gorm"
-  )
+)
 
-  type RepositoryGorm struct{
-	  db *gorm.DB
-  }
+func (r *database.RepositoryGorm) StoreWebSite(*models.Website) error {
 
-  func NewUrlRepo(db *gorm.DB) *RepositoryGorm {
-	return &RepositoryGorm{db}
-  }
+}
 
-  func (r *RepositoryGorm) FindAll() ([]models.Site , error){
-    var err error
-    allsites := []models.Site{}
-    err = r.db.Find(&allsites).Error
-    if err != nil{
-      return nil, err
-    }
-    return allsites, nil
-  }
+func (r *database.RepositoryGorm) RetriveAllWebSites() ([]models.Website, error) {
+	var err error
+	allsites := []models.Website{}
+	err = r.db.Find(&allsites).Error
+	if err != nil {
+		return nil, err
+	}
+	return allsites, nil
+}
 
-  func (r *RepositoryGorm) FindByDomain(domain string) ([]models.Site, error){
-    var err error
-    var sitebydomain []models.Site
-    err = r.db.Debug().Where("domain = ?", domain).Find(&sitebydomain).Error
-    if err != nil{
-      return nil, err
-    }
-    return sitebydomain, nil
-  }
+func (r *database.RepositoryGorm) RetriveByDomainName(domain string) ([]models.Website, error) {
+	var err error
+	var sitebydomain []models.Website
+	err = r.db.Debug().Where("domain = ?", domain).Find(&sitebydomain).Error
+	if err != nil {
+		return nil, err
+	}
+	return sitebydomain, nil
+}

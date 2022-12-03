@@ -1,23 +1,29 @@
 package api
 
 import (
-  "fmt"
-  "log"
-  "net/http"
-  "github.com/drumer2142/microWeb/src/config"
-  "github.com/drumer2142/microWeb/src/migrations"
-  "github.com/drumer2142/microWeb/src/api/router"
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/drumer2142/microWeb/src/api/database"
+	"github.com/drumer2142/microWeb/src/api/router"
 )
 
-func init(){
-    config.Load()
-    migrations.Load()
+type APIServer struct {
+	listenAddr string
+	store      database.Storage
 }
 
-func Run() {
-    port := config.APPPORT
-    router := router.New()
+func NewApiServer(listenAddr string, store database.Storage) *APIServer {
+	return &APIServer{
+		listenAddr: listenAddr,
+		store:      store,
+	}
+}
 
-    fmt.Printf("\nListening [::]:%d \n", port)
-    log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), router))
+func (srv *APIServer) Run() {
+	router := router.New()
+
+	fmt.Printf("\nListening [::]:%s \n", srv.listenAddr)
+	log.Fatal(http.ListenAndServe(srv.listenAddr, router))
 }

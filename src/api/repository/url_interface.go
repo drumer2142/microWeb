@@ -5,6 +5,6 @@ import (
 )
 
 type UrlRepository interface {
-	FindAll() ([]models.Site, error)
-	FindByDomain(string) ([]models.Site, error)
+	FindAll() ([]models.Website, error)
+	FindByDomain(string) ([]models.Website, error)
 }
