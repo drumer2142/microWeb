@@ -8,9 +8,9 @@ import (
 )
 
 type Storage interface {
-	StoreWebSite(*models.Website) error
-	RetriveAllWebSites() ([]*models.Website, error)
-	RetriveByDomainName(string) (*models.Website, error)
+	CreateWebSite(*models.Website) error
+	GetAllWebSites() ([]*models.Website, error)
+	GetByDomainName(string) (*models.Website, error)
 }
 
 type RepositoryGorm struct {
@@ -30,11 +30,11 @@ func Connect() (*RepositoryGorm, error) {
 
 }
 
-func (r *RepositoryGorm) StoreWebSite(*models.Website) error {
-
+func (r *RepositoryGorm) CreateWebSite(*models.Website) error {
+	// err := db.Create(&site).RecordNotFound()
 }
 
-func (r *RepositoryGorm) RetriveAllWebSites() ([]*models.Website, error) {
+func (r *RepositoryGorm) GetAllWebSites() ([]*models.Website, error) {
 	// var err error
 	// allsites := []models.Website{}
 	// err = r.db.Find(&allsites).Error
@@ -44,7 +44,7 @@ func (r *RepositoryGorm) RetriveAllWebSites() ([]*models.Website, error) {
 	// return allsites, nil
 }
 
-func (r *RepositoryGorm) RetriveByDomainName(domain string) (*models.Website, error) {
+func (r *RepositoryGorm) GetByDomainName(domain string) (*models.Website, error) {
 	// var err error
 	// var sitebydomain []models.Website
 	// err = r.db.Debug().Where("domain = ?", domain).Find(&sitebydomain).Error
