@@ -4,7 +4,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func NewRouter() *mux.Router {
+func (srv *APIServer) NewRouter() *mux.Router {
 	r := mux.NewRouter().StrictSlash(true)
-	return SetupRoutes(r)
+	return srv.SetupRoutes(r)
 }

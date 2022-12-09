@@ -14,7 +14,6 @@ import (
 type APIServer struct {
 	listenAddr string
 	store      database.Storage
-	routes     Route
 }
 
 func NewApiServer(listenAddr string, store database.Storage) *APIServer {
@@ -25,8 +24,7 @@ func NewApiServer(listenAddr string, store database.Storage) *APIServer {
 }
 
 func (srv *APIServer) Run() {
-
-	router := NewRouter()
+	router := srv.NewRouter()
 
 	fmt.Printf("\nListening [::]:%s \n", srv.listenAddr)
 	log.Fatal(http.ListenAndServe(srv.listenAddr, router))
