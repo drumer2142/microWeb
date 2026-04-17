@@ -1,41 +1,52 @@
 package migrations
 
 import (
-  "log"
-  "github.com/drumer2142/microWeb/src/api/database"
-  "github.com/drumer2142/microWeb/src/api/models"
+	"log"
+	"os"
+
+	"github.com/drumer2142/microWeb/src/api/database"
+	"github.com/drumer2142/microWeb/src/api/models"
+	"gorm.io/gorm"
 )
 
+// Run applies schema changes and optional demo seeding. Uses the shared DB from database.Init().
+func Run() {
+	db := database.Get()
+	if db == nil {
+		log.Fatal("migrations: database not initialized")
+	}
 
-var err error
+	reset := os.Getenv("RESET_DB_ON_STARTUP") == "true"
+	if reset {
+		if err := db.Migrator().DropTable(&models.Site{}); err != nil {
+			log.Fatal(err)
+		}
+	}
 
-func Load() {
-  db, err := database.Connect()
-	if err != nil {
-    log.Println("\nFailed to connect to db....\n", err.Error())
-  }
-  defer db.Close()
+	if err := db.AutoMigrate(&models.Site{}); err != nil {
+		log.Fatal(err)
+	}
 
-  // Drop table if exits
-  err = db.Debug().DropTableIfExists(&models.Site{}).Error
-  if err != nil {
-    log.Fatal(err)
-  }
+	if reset {
+		seed(db)
+		return
+	}
 
-  // Migrate the schema
-  err = db.Debug().AutoMigrate(&models.Site{}).Error
-  if err != nil {
-    log.Fatal(err)
-  }
+	if os.Getenv("SEED_DEMO_DATA") == "true" {
+		var n int64
+		if err := db.Model(&models.Site{}).Count(&n).Error; err != nil {
+			log.Fatal(err)
+		}
+		if n == 0 {
+			seed(db)
+		}
+	}
+}
 
-  // insert demo values to the db
-  for i, _ := range sites {
-
-    err = db.Debug().Model(&models.Site{}).Create(&sites[i]).Error
-    if err != nil {
-      log.Fatal(err)
-    }
-
-  }
-
+func seed(db *gorm.DB) {
+	for i := range sites {
+		if err := db.Create(&sites[i]).Error; err != nil {
+			log.Fatal(err)
+		}
+	}
 }
